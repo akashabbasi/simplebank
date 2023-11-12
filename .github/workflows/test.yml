@@ -11,9 +11,10 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    
     services:
       postgres:
-        image: postgres:16
+        image: postgres:16-alpine
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: secret
@@ -47,4 +48,4 @@ jobs:
       run: make migrateup
 
     - name: Test
-      run: go test -v -cover ./...
+      run: make test

@@ -19,10 +19,12 @@ func newTestServer(t *testing.T, store db.Store) *Server {
 
 	server, err := NewServer(config, store)
 	require.NoError(t, err)
+
 	return server
 }
 
 func TestMain(m *testing.M) {
 	gin.SetMode(gin.TestMode)
+
 	os.Exit(m.Run())
 }
