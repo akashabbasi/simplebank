@@ -46,8 +46,8 @@ func (store *SQLStore) execTx(ctx context.Context, fn func(*Queries) error) erro
 
 // TransferTxParams contains the input parameters of transfer function
 type TransferTxParams struct {
-	FromAccountId int64 `json:"from_account_id"`
-	ToAccountId   int64 `json:"to_account_id"`
+	FromAccountID int64 `json:"from_account_id"`
+	ToAccountID   int64 `json:"to_account_id"`
 	Amount        int64 `json:"amount"`
 }
 
@@ -73,8 +73,8 @@ func (store SQLStore) TransferTx(
 
 		result.Transfer, err = q.CreateTransfer(ctx,
 			CreateTransferParams{
-				FromAccountID: arg.FromAccountId,
-				ToAccountID:   arg.ToAccountId,
+				FromAccountID: arg.FromAccountID,
+				ToAccountID:   arg.ToAccountID,
 				Amount:        arg.Amount,
 			},
 		)
@@ -83,7 +83,7 @@ func (store SQLStore) TransferTx(
 		}
 
 		result.FromEntry, err = q.CreateEntry(ctx, CreateEntryParams{
-			AccountID: arg.FromAccountId,
+			AccountID: arg.FromAccountID,
 			Amount:    -arg.Amount,
 		})
 		if err != nil {
@@ -91,29 +91,29 @@ func (store SQLStore) TransferTx(
 		}
 
 		result.ToEntry, err = q.CreateEntry(ctx, CreateEntryParams{
-			AccountID: arg.ToAccountId,
+			AccountID: arg.ToAccountID,
 			Amount:    arg.Amount,
 		})
 		if err != nil {
 			return err
 		}
 
-		if arg.FromAccountId < arg.ToAccountId {
+		if arg.FromAccountID < arg.ToAccountID {
 			result.FromAccount, result.ToAccount, err = addMoeny(
 				ctx,
 				q,
-				arg.FromAccountId,
+				arg.FromAccountID,
 				-arg.Amount,
-				arg.ToAccountId,
+				arg.ToAccountID,
 				arg.Amount,
 			)
 		} else {
 			result.ToAccount, result.FromAccount, err = addMoeny(
 				ctx,
 				q,
-				arg.ToAccountId,
+				arg.ToAccountID,
 				arg.Amount,
-				arg.FromAccountId,
+				arg.FromAccountID,
 				-arg.Amount,
 			)
 		}
